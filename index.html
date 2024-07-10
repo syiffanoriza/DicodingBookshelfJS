@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookshelf App</title>
+
+    <!-- Impor script kamu di sini -->
+    <!-- Lampirkan `defer` jika pemanggilan dilakukan dalam <head> -->
+    <script defer src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header>
+      <span id="appData">
+        <svg id="appIcon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.5 2.25H16V10L14 8.85706L12 10V2.25H7C4.582 2.25 3.25 3.582 3.25 6V18C3.25 20.243 4.757 21.75 7 21.75H18.5C19.74 21.75 20.75 20.741 20.75 19.5V13.5V4.5C20.75 3.259 19.74 2.25 18.5 2.25ZM19.25 19.5C19.25 19.914 18.913 20.25 18.5 20.25H7C4.97 20.25 4.75 18.676 4.75 18C4.75 17.324 4.97 15.75 7 15.75H18.5C18.645 15.75 18.7851 15.733 18.9221 15.707C18.9661 15.699 19.008 15.684 19.051 15.673C19.117 15.656 19.186 15.644 19.25 15.621V19.5Z"/>
+        </svg>        
+        <h1 id="appName">Bookshelf App</h1>
+      </span>
+      <form id="searchBook" data-testid="searchBookForm">
+          <span>
+            <label for="searchBookTitle"> 
+              Cari Buku
+            </label>
+            <input id="searchBookTitle" type="text" data-testid="searchBookFormTitleInput" />
+            <button id="searchSubmit" aria-label="Cari Buku" type="submit" data-testid="searchBookFormSubmitButton">
+              <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.53 20.47L17.689 16.629C18.973 15.106 19.75 13.143 19.75 11C19.75 6.175 15.825 2.25 11 2.25C6.175 2.25 2.25 6.175 2.25 11C2.25 15.825 6.175 19.75 11 19.75C13.143 19.75 15.106 18.973 16.629 17.689L20.47 21.53C20.616 21.676 20.808 21.75 21 21.75C21.192 21.75 21.384 21.677 21.53 21.53C21.823 21.238 21.823 20.763 21.53 20.47ZM3.75 11C3.75 7.002 7.002 3.75 11 3.75C14.998 3.75 18.25 7.002 18.25 11C18.25 14.998 14.998 18.25 11 18.25C7.002 18.25 3.75 14.998 3.75 11Z"/>
+              </svg>
+            </button>
+          </span>
+        </form>
+    </header>
+
+    <main>
+      <div id="addBooksModal">
+        <h2>Tambah Buku Baru</h2>
+        <form id="bookForm" data-testid="bookForm">
+          <div>
+            <label for="bookFormTitle">Judul</label>
+            <input id="bookFormTitle" type="text" required data-testid="bookFormTitleInput" />
+          </div>
+          <div>
+            <label for="bookFormAuthor">Penulis</label>
+            <input id="bookFormAuthor" type="text" required data-testid="bookFormAuthorInput" />
+          </div>
+          <div>
+            <label for="bookFormYear">Tahun</label>
+            <input id="bookFormYear" type="number" required data-testid="bookFormYearInput" />
+          </div>
+          <div>
+            <label for="bookFormIsComplete">Selesai dibaca</label>
+            <input
+              id="bookFormIsComplete"
+              type="checkbox"
+              data-testid="bookFormIsCompleteCheckbox"
+            />
+          </div>
+          <button id="bookFormSubmit" type="submit" data-testid="bookFormSubmitButton">
+            Masukkan Buku ke rak <span>Belum selesai dibaca</span>
+          </button>
+        </form>
+      </div>
+
+      <div id="shelves">
+        <section class="bookshelf">
+          <h2>Belum selesai dibaca</h2>
+          
+        <div id="incompleteBookList" data-testid="incompleteBookList">
+          <!-- 
+            Ini adalah struktur HTML untuk masing-masing buku.
+            Pastikan susunan elemen beserta atribut data-testid menyesuaikan seperti contoh ini.
+            -->
+          <div class="book" data-bookid="123123123" data-testid="bookItem">
+              <h3 data-testid="bookItemTitle">Judul Buku 1</h3>
+              <p data-testid="bookItemAuthor">Penulis: Penulis Buku 1</p>
+              <p data-testid="bookItemYear">Tahun: 2030</p>
+              <div>
+                <button data-testid="bookItemIsCompleteButton">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1.25C6.072 1.25 1.25 6.073 1.25 12C1.25 17.927 6.072 22.75 12 22.75C17.928 22.75 22.75 17.927 22.75 12C22.75 6.073 17.928 1.25 12 1.25ZM12 21.25C6.899 21.25 2.75 17.101 2.75 12C2.75 6.899 6.899 2.75 12 2.75C17.101 2.75 21.25 6.899 21.25 12C21.25 17.101 17.101 21.25 12 21.25ZM16.03 9.13599C16.323 9.42899 16.323 9.90402 16.03 10.197L11.363 14.864C11.217 15.01 11.025 15.084 10.833 15.084C10.641 15.084 10.449 15.011 10.303 14.864L7.97 12.531C7.677 12.238 7.677 11.763 7.97 11.47C8.263 11.177 8.73801 11.177 9.03101 11.47L10.834 13.273L14.97 9.13702C15.263 8.84402 15.737 8.84399 16.03 9.13599Z"/>
+                  </svg>
+                </button>
+                <button data-testid="bookItemDeleteButton">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 5.25H17.441C16.54 5.25 16.502 5.136 16.255 4.396L16.053 3.789C15.746 2.869 14.889 2.25 13.919 2.25H10.081C9.11099 2.25 8.253 2.868 7.947 3.789L7.745 4.396C7.498 5.137 7.46 5.25 6.559 5.25H3C2.586 5.25 2.25 5.586 2.25 6C2.25 6.414 2.586 6.75 3 6.75H4.298L5.065 18.249C5.213 20.474 6.57701 21.75 8.80701 21.75H15.194C17.423 21.75 18.787 20.474 18.936 18.249L19.703 6.75H21C21.414 6.75 21.75 6.414 21.75 6C21.75 5.586 21.414 5.25 21 5.25ZM9.37 4.263C9.473 3.956 9.75799 3.75 10.081 3.75H13.919C14.242 3.75 14.528 3.956 14.63 4.263L14.832 4.87C14.876 5.001 14.92 5.128 14.968 5.25H9.03C9.078 5.127 9.12301 5 9.16701 4.87L9.37 4.263ZM17.438 18.149C17.343 19.582 16.629 20.25 15.193 20.25H8.806C7.37 20.25 6.657 19.583 6.561 18.149L5.801 6.75H6.558C6.683 6.75 6.787 6.737 6.899 6.729C6.933 6.734 6.964 6.75 6.999 6.75H16.999C17.035 6.75 17.065 6.734 17.099 6.729C17.211 6.737 17.315 6.75 17.44 6.75H18.197L17.438 18.149ZM14.75 11V16C14.75 16.414 14.414 16.75 14 16.75C13.586 16.75 13.25 16.414 13.25 16V11C13.25 10.586 13.586 10.25 14 10.25C14.414 10.25 14.75 10.586 14.75 11ZM10.75 11V16C10.75 16.414 10.414 16.75 10 16.75C9.586 16.75 9.25 16.414 9.25 16V11C9.25 10.586 9.586 10.25 10 10.25C10.414 10.25 10.75 10.586 10.75 11Z"/>
+                  </svg>
+                </button>
+                <button data-testid="bookItemEditButton">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 21.7502H6C3.582 21.7502 2.25 20.4182 2.25 18.0002V8.00022C2.25 5.58222 3.582 4.25022 6 4.25022H9C9.414 4.25022 9.75 4.58622 9.75 5.00022C9.75 5.41422 9.414 5.75022 9 5.75022H6C4.423 5.75022 3.75 6.42322 3.75 8.00022V18.0002C3.75 19.5772 4.423 20.2502 6 20.2502H16C17.577 20.2502 18.25 19.5772 18.25 18.0002V15.0002C18.25 14.5862 18.586 14.2502 19 14.2502C19.414 14.2502 19.75 14.5862 19.75 15.0002V18.0002C19.75 20.4182 18.418 21.7502 16 21.7502ZM20.58 5.03022L18.97 3.42023C18.4 2.86023 17.49 2.86021 16.92 3.43021L15.57 4.79023L19.21 8.43021L20.57 7.08021C21.14 6.51021 21.14 5.60022 20.58 5.03022ZM14.51 5.85023L8 12.3902V16.0002H11.61L18.15 9.49021L14.51 5.85023Z"/>
+                  </svg>     
+                </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr>
+      <section class="bookshelf">
+        <h2>Selesai dibaca</h2>
+
+        <div id="completeBookList" data-testid="completeBookList">
+          <!-- 
+            Ini adalah struktur HTML untuk masing-masing buku.
+            Pastikan susunan elemen beserta atribut data-testid menyesuaikan seperti contoh ini.
+            -->
+            <div class="book" data-bookid="456456456" data-testid="bookItem">
+              <h3 data-testid="bookItemTitle">Judul Buku 2</h3>
+              <p data-testid="bookItemAuthor">Penulis: Penulis Buku 2</p>
+              <p data-testid="bookItemYear">Tahun: 2030</p>
+              <div>
+                <button data-testid="bookItemIsCompleteButton">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1.25C6.072 1.25 1.25 6.073 1.25 12C1.25 17.927 6.072 22.75 12 22.75C17.928 22.75 22.75 17.927 22.75 12C22.75 6.073 17.928 1.25 12 1.25ZM12 21.25C6.899 21.25 2.75 17.101 2.75 12C2.75 6.899 6.899 2.75 12 2.75C17.101 2.75 21.25 6.899 21.25 12C21.25 17.101 17.101 21.25 12 21.25ZM16.03 9.13599C16.323 9.42899 16.323 9.90402 16.03 10.197L11.363 14.864C11.217 15.01 11.025 15.084 10.833 15.084C10.641 15.084 10.449 15.011 10.303 14.864L7.97 12.531C7.677 12.238 7.677 11.763 7.97 11.47C8.263 11.177 8.73801 11.177 9.03101 11.47L10.834 13.273L14.97 9.13702C15.263 8.84402 15.737 8.84399 16.03 9.13599Z"/>
+                  </svg>
+                </button>
+                <button data-testid="bookItemDeleteButton">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 5.25H17.441C16.54 5.25 16.502 5.136 16.255 4.396L16.053 3.789C15.746 2.869 14.889 2.25 13.919 2.25H10.081C9.11099 2.25 8.253 2.868 7.947 3.789L7.745 4.396C7.498 5.137 7.46 5.25 6.559 5.25H3C2.586 5.25 2.25 5.586 2.25 6C2.25 6.414 2.586 6.75 3 6.75H4.298L5.065 18.249C5.213 20.474 6.57701 21.75 8.80701 21.75H15.194C17.423 21.75 18.787 20.474 18.936 18.249L19.703 6.75H21C21.414 6.75 21.75 6.414 21.75 6C21.75 5.586 21.414 5.25 21 5.25ZM9.37 4.263C9.473 3.956 9.75799 3.75 10.081 3.75H13.919C14.242 3.75 14.528 3.956 14.63 4.263L14.832 4.87C14.876 5.001 14.92 5.128 14.968 5.25H9.03C9.078 5.127 9.12301 5 9.16701 4.87L9.37 4.263ZM17.438 18.149C17.343 19.582 16.629 20.25 15.193 20.25H8.806C7.37 20.25 6.657 19.583 6.561 18.149L5.801 6.75H6.558C6.683 6.75 6.787 6.737 6.899 6.729C6.933 6.734 6.964 6.75 6.999 6.75H16.999C17.035 6.75 17.065 6.734 17.099 6.729C17.211 6.737 17.315 6.75 17.44 6.75H18.197L17.438 18.149ZM14.75 11V16C14.75 16.414 14.414 16.75 14 16.75C13.586 16.75 13.25 16.414 13.25 16V11C13.25 10.586 13.586 10.25 14 10.25C14.414 10.25 14.75 10.586 14.75 11ZM10.75 11V16C10.75 16.414 10.414 16.75 10 16.75C9.586 16.75 9.25 16.414 9.25 16V11C9.25 10.586 9.586 10.25 10 10.25C10.414 10.25 10.75 10.586 10.75 11Z"/>
+                  </svg>
+                </button>
+                <button data-testid="bookItemEditButton">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 21.7502H6C3.582 21.7502 2.25 20.4182 2.25 18.0002V8.00022C2.25 5.58222 3.582 4.25022 6 4.25022H9C9.414 4.25022 9.75 4.58622 9.75 5.00022C9.75 5.41422 9.414 5.75022 9 5.75022H6C4.423 5.75022 3.75 6.42322 3.75 8.00022V18.0002C3.75 19.5772 4.423 20.2502 6 20.2502H16C17.577 20.2502 18.25 19.5772 18.25 18.0002V15.0002C18.25 14.5862 18.586 14.2502 19 14.2502C19.414 14.2502 19.75 14.5862 19.75 15.0002V18.0002C19.75 20.4182 18.418 21.7502 16 21.7502ZM20.58 5.03022L18.97 3.42023C18.4 2.86023 17.49 2.86021 16.92 3.43021L15.57 4.79023L19.21 8.43021L20.57 7.08021C21.14 6.51021 21.14 5.60022 20.58 5.03022ZM14.51 5.85023L8 12.3902V16.0002H11.61L18.15 9.49021L14.51 5.85023Z"/>
+                  </svg>                    
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
