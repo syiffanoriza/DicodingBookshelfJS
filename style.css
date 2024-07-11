@@ -7,13 +7,17 @@
 }
 
 :root {
+    --black: #101010;
     --white: #FEFEFE;
     --gray: #CECECE;
+    --faded-salmon: #fa807285;
+    --translucent-salmon: #FA807218;
 }
 
 html {
     font-family: 'DM Sans', Arial, Helvetica, sans-serif;
     background-color: var(--white);
+    color: var(--black);
 }
 
 hr {
@@ -23,7 +27,25 @@ hr {
 
 svg {
     display: block;
-    height: 1.25em;
+    height: 1.75em;
+}
+
+button {
+    min-width: fit-content;
+    padding: .25em;
+    transition: 200ms;
+    color: var(--white);
+    font-weight: 500;
+    opacity: 80%;
+    border: solid 1px salmon;
+    border-radius: 100%;
+    background-color: salmon;
+}
+
+button:hover {
+    opacity: 100%!important;
+    cursor: pointer;
+    transition: 200ms;
 }
 
 header {
@@ -53,35 +75,110 @@ section {
     padding: 1em 2em;
 }
 
-#addBooksModal {
-    display: none;
-}
-
-section#top {
+button#addBookToggle {
     display: flex;
-    padding: 2em;
+    flex-direction: column;
     gap: 1em;
-}
-
-button {
-    min-width: fit-content;
-    padding: .5em;
-    transition: 200ms;
-    color: var(--white);
+    color: salmon;
     font-weight: 500;
-    border: solid 1px salmon;
+    justify-content: center;
+    align-items: center;
+    opacity: 60%;
     border-radius: 4px;
-    background-color: salmon;
+    border: solid 1.25px salmon;
+    background-color: var(--translucent-salmon);
+    background-blend-mode: color-burn;
 }
 
-button:hover {
-    opacity: 80%;
-    cursor: pointer;
-    transition: 200ms;
+button#addBookToggle svg {
+    height: 2em;
 }
 
-form#searchBook > span {
+div#addBooksModal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #10101044;
+    background-blend-mode: color-burn;
+}
+
+form#bookForm {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: 1em;
+    padding: 2em;
+    background-color: var(--white);
+    border-radius: 4px;
+    border: solid 1px var(--gray);
+}
+
+form#bookForm > span {
+    display: flex;
+    justify-content: space-between;
+}
+
+button#closeBookForm {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    color: gray;
+    opacity: 50%;
+}
+
+div#addBooksModal label.floating {
+    position: absolute;
+    padding: 0 .2em;
+    left: 0;
+    color: var(--faded-salmon);
+    font-weight: 500;
+    border: none!important;
+    background-color: var(--white);
+    transform: scale(0.65) translate(0, -70%);
+}
+
+div#addBooksModal input.outline {
+    width: 30em;
+    padding: .75em;
+    outline: none;
+    color: var(--black)!important;
+    border-radius: 4px;
+    border: solid 2px var(--faded-salmon);
+    transition: all 200ms;
+}
+
+div#addBooksModal input.outline:focus,
+div#addBooksModal input.outline:focus + label.floating,
+div#addBooksModal input.outline:hover,
+div#addBooksModal input.outline:hover + label.floating {
+    color: salmon;
+    border: solid 2px salmon;
+    transition: all 200ms;
+}
+
+
+button#bookFormSubmit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5em;
+    gap: .5em;
+    border-radius: 4px;
+}
+
+button#bookFormSubmit svg {
+    height: 1.25em;
+}
+
+.relative {
     position: relative;
+    
 }
 
 label[for="searchBookTitle"] {
@@ -89,21 +186,44 @@ label[for="searchBookTitle"] {
     padding: 0 .2em;
     top: .1em;
     left: .25em;
-    color: salmon;
+    color: var(--faded-salmon);
     font-weight: 500;
+    border: none!important;
     background-color: var(--white);
     transform: scale(0.65) translate(-15%, -140%);
+}
+
+input#searchBookTitle {
+    min-width: 20%;
+    padding: .75em;
+    outline: none;
+    color: var(--black)!important;
+    border-radius: 4px;
+    border: solid 2px var(--faded-salmon);
+}
+
+input#searchBookTitle:hover,
+input#searchBookTitle:focus,
+input#searchBookTitle:hover + label[for=searchBookTitle],
+input#searchBookTitle:focus + label[for=searchBookTitle] {
+    color: salmon;
+    transition: all 200ms;
+    border: solid 2px salmon;
 }
 
 button#searchSubmit {
     position: absolute;
     padding: .25em;
     top: 2%;
-    left: 22.75em;
+    right: 2.5%;
     border: none;
     color: salmon;
     border-radius: 100%;
     background-color: var(--white);
+}
+
+button#searchSubmit svg {
+    height: 1.25em;
 }
 
 button#searchSubmit:hover,
@@ -113,17 +233,10 @@ button#searchSubmit:focus {
     background-color: salmon;
 }
 
-input#searchBookTitle {
-    width: 25em;
-    padding: .75em;
-    outline: none;
-    border-radius: 4px;
-    border: solid 2px salmon;
-}
-
 div#shelves {
     display: flex;
-    justify-content: space-evenly
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 section.bookshelf {
@@ -139,14 +252,37 @@ div#incompleteBookList,
 div#completeBookList {
     display: grid;
     gap: .5em;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     padding: .5em 0;
     width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 div#incompleteBookList > div.book,
 div#completeBookList > div.book {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1em;
+    min-height: 14em;
     padding: 1em;
     border-radius: 4px;
     border: solid 1px var(--gray);
+}
+
+@media (min-width: 1280px) {
+    div#shelves {
+        flex-direction: row;
+    }
+    
+    div#incompleteBookList,
+    div#completeBookList {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+    div#incompleteBookList,
+    div#completeBookList {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
 }
