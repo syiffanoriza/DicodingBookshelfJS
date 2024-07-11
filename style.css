@@ -72,7 +72,7 @@ svg#appIcon {
 }
 
 section {
-    padding: 1em 2em;
+    padding: 1em;
 }
 
 button#addBookToggle {
@@ -123,6 +123,7 @@ form.modalContent {
 form.modalContent > span {
     display: flex;
     justify-content: space-between;
+    gap: 2em;
 }
 
 button.modalClose {
@@ -145,7 +146,7 @@ div.modal label.floating {
 }
 
 div.modal input.outline {
-    width: 30em;
+    width: 100%;
     padding: .75em;
     outline: none;
     color: var(--black)!important;
