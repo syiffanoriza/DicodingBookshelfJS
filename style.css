@@ -79,6 +79,7 @@ button#addBookToggle {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    min-height: 17em;
     color: salmon;
     font-weight: 500;
     justify-content: center;

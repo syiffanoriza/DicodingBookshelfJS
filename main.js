@@ -83,7 +83,29 @@ function removeBook(id) {
     document.location.reload();
 }
 
+function searchBook(event) {
+    event.preventDefault();
+    const input = document.getElementById('searchBookTitle');
+    const query = input.value;
+    const result = query ? books.filter((b) => {
+        return b.title.toLowerCase().includes(query.toLowerCase());
+    }) : result;
+    loadShelves(result);
+}
+
 function loadShelves(books) {
+    const finishedBookshelf = document.getElementById('completeBookList');
+    const unfinishedBookshelf = document.getElementById('incompleteBookList');
+    finishedBookshelf.innerHTML = '';
+    unfinishedBookshelf.innerHTML = `
+        <button id="addBookToggle" onclick="addBook()" type="button">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 1.25C6.072 1.25 1.25 6.073 1.25 12C1.25 17.927 6.072 22.75 12 22.75C17.928 22.75 22.75 17.927 22.75 12C22.75 6.073 17.928 1.25 12 1.25ZM12 21.25C6.899 21.25 2.75 17.101 2.75 12C2.75 6.899 6.899 2.75 12 2.75C17.101 2.75 21.25 6.899 21.25 12C21.25 17.101 17.101 21.25 12 21.25ZM16.25 12C16.25 12.414 15.914 12.75 15.5 12.75H12.75V15.5C12.75 15.914 12.414 16.25 12 16.25C11.586 16.25 11.25 15.914 11.25 15.5V12.75H8.5C8.086 12.75 7.75 12.414 7.75 12C7.75 11.586 8.086 11.25 8.5 11.25H11.25V8.5C11.25 8.086 11.586 7.75 12 7.75C12.414 7.75 12.75 8.086 12.75 8.5V11.25H15.5C15.914 11.25 16.25 11.586 16.25 12Z" />
+            </svg>
+            Tambah Buku
+        </button>
+    `;
     for (const book of books) {
         const bookItem = document.createElement('div');
         bookItem.classList.add('book');
@@ -134,10 +156,7 @@ function loadShelves(books) {
             bookActions.appendChild(bookDelete);
             bookActions.appendChild(bookEdit);
             bookItem.appendChild(bookActions);
-            document.getElementById('incompleteBookList')
-                .appendChild(bookItem);
-            document.getElementById('completeBookList')
-                .appendChild(bookItem);
+            finishedBookshelf.appendChild(bookItem);
         } else {
             const bookActions = document.createElement('span');
             bookActions.setAttribute('class', 'btnWrapper')
@@ -169,8 +188,7 @@ function loadShelves(books) {
             bookActions.appendChild(bookDelete);
             bookActions.appendChild(bookEdit);
             bookItem.appendChild(bookActions);
-            document.getElementById('incompleteBookList')
-                .appendChild(bookItem);
+            unfinishedBookshelf.appendChild(bookItem);
         }
     }
 }
@@ -178,4 +196,6 @@ function loadShelves(books) {
 window.addEventListener('load', function () {
     books = JSON.parse(localStorage.getItem('books')) || [],
         loadShelves(books);
+    const searchbar = document.getElementById('searchBook');
+    searchbar.addEventListener('submit', searchBook);
 })
