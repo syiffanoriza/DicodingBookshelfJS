@@ -11,7 +11,7 @@ function addBook(id = null) {
                 title: document.getElementById('bookFormTitle').value,
                 author: document.getElementById('bookFormAuthor').value,
                 year: year,
-                finished: document.getElementById('bookFormProgress').checked
+                isComplete: document.getElementById('bookFormProgress').checked
             };
                     
             if (id) {
@@ -36,7 +36,7 @@ function addBook(id = null) {
             document.getElementById('bookFormTitle').value = existingBook.title;
             document.getElementById('bookFormAuthor').value = existingBook.author;
             document.getElementById('bookFormYear').value = existingBook.year;
-            document.getElementById('bookFormProgress').checked = existingBook.finished;
+            document.getElementById('bookFormProgress').checked = existingBook.isComplete;
         }
     } else {
         document.getElementById('bookForm').reset();
@@ -58,7 +58,7 @@ function bookMarkFinished(id) {
     if (-1 !== index) {
         books[index] = {
             ...books[index],
-            finished: true
+            isComplete: true
         };
         localStorage.setItem('books', JSON.stringify(books));
         document.location.reload()
@@ -72,7 +72,7 @@ function bookMarkUnfinished(id) {
     if (-1 !== index) {
         books[index] = {
             ...books[index],
-            finished: false
+            isComplete: false
         };
         localStorage.setItem('books', JSON.stringify(books));
         document.location.reload();
@@ -132,7 +132,7 @@ function loadShelves(books) {
         bookData.appendChild(bookAuthor);
         bookData.appendChild(bookYear);
         bookItem.appendChild(bookData);
-        if (book.finished) {
+        if (book.isComplete) {
             const bookActions = document.createElement('span');
             bookActions.setAttribute('class', 'btnWrapper')
             const bookUnfinished = document.createElement('button');
