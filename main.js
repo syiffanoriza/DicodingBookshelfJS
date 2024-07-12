@@ -3,24 +3,31 @@ let books = [];
 function addBook(id = null) {
     document.getElementById('bookModal').style.display = 'flex';
     document.getElementById('bookForm').addEventListener('submit', () => {
-        const book = {
-            id: id || +new Date,
-            title: document.getElementById('bookFormTitle').value,
-            author: document.getElementById('bookFormAuthor').value,
-            year: document.getElementById('bookFormYear').value,
-            finished: document.getElementById('bookFormProgress').checked
-        };
+        const year = parseInt(document.getElementById('bookFormYear').value);
 
-        if (id) {
-            const index = books.findIndex((b) => b.id === id);
-            if (index !== -1) {
-                books[index] = book;
+        if (!isNaN(year)) {
+            const book = {
+                id: id || +new Date,
+                title: document.getElementById('bookFormTitle').value,
+                author: document.getElementById('bookFormAuthor').value,
+                year: year,
+                finished: document.getElementById('bookFormProgress').checked
+            };
+                    
+            if (id) {
+                const index = books.findIndex((b) => b.id === id);
+                if (index !== -1) {
+                    books[index] = book;
+                }
+            } else {
+                books.push(book);
             }
-        } else {
-            books.push(book);
-        }
 
-        localStorage.setItem('books', JSON.stringify(books));
+            localStorage.setItem('books', JSON.stringify(books));
+        } else {
+            const error = document.getElementById(bookFormError);
+            error.innerText = 'Data anda tidak valid!';
+        }
     });
 
     if (id) {

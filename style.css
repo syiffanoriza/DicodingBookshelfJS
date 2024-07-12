@@ -164,6 +164,9 @@ div.modal input.outline:hover + label.floating {
     transition: all 200ms;
 }
 
+p#bookFormError {
+    color: red;
+}
 
 button#bookFormSubmit {
     display: flex;
